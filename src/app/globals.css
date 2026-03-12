@@ -45,6 +45,27 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* LSR Motors design tokens */
+  --color-lsr-primary: #1C1917;
+  --color-lsr-accent: #CA8A04;
+  --color-lsr-app-bg: #FAFAF9;
+  --color-lsr-surface: #FFFFFF;
+  --color-lsr-muted: #F5F4F2;
+  --color-lsr-text: #0C0A09;
+  --color-lsr-subtle: #78716C;
+  --color-lsr-border: #E8E5E0;
+
+  /* Status colors */
+  --color-deposited: #E7E5E4;
+  --color-diagnosed: #FED7AA;
+  --color-in-progress: #BFDBFE;
+  --color-completed: #BBF7D0;
+  --color-ready: #6EE7B7;
+  --color-delivered: #E7E5E4;
+
+  /* Font */
+  --font-sans: 'DM Sans', sans-serif;
 }
 
 :root {
@@ -116,12 +137,18 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    background: #FAFAF9;
+    font-family: 'DM Sans', sans-serif;
   }
   html {
     @apply font-sans;

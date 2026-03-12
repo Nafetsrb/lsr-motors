@@ -1,6 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { ChevronRight, Phone } from 'lucide-react'
+import { Plus, Phone, Bike } from 'lucide-react'
 
 const mockClients = [
   { id: '1', name: 'Thomas Dupont', email: 'thomas.dupont@email.com', phone: '06 12 34 56 78', motorcycles: 2, activeInterventions: 1, joined: 'Jan. 2025' },
@@ -15,51 +13,77 @@ function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
 }
 
+function getAvatarColor(name: string) {
+  const colors = [
+    'bg-blue-100 text-blue-700',
+    'bg-emerald-100 text-emerald-700',
+    'bg-purple-100 text-purple-700',
+    'bg-orange-100 text-orange-700',
+    'bg-pink-100 text-pink-700',
+    'bg-amber-100 text-amber-700',
+  ]
+  const idx = name.charCodeAt(0) % colors.length
+  return colors[idx]
+}
+
 export default function ClientsPage() {
   return (
-    <div className="p-4 md:p-6 space-y-4">
-      <div className="flex items-center justify-between">
+    <div>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Clients</h1>
-          <p className="text-sm text-zinc-500 mt-1">{mockClients.length} clients enregistrés</p>
+          <h1 className="text-2xl font-bold text-[#0C0A09]">Clients</h1>
+          <p className="text-[#78716C] mt-1">{mockClients.length} clients enregistrés</p>
         </div>
-        <button className="bg-zinc-900 text-white text-sm px-4 py-2 rounded-lg font-medium hover:bg-zinc-700 transition-colors">
-          + Nouveau
+        <button className="flex items-center gap-2 bg-[#CA8A04] text-white hover:bg-[#A16207] rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-150">
+          <Plus className="w-4 h-4" />
+          Nouveau client
         </button>
       </div>
 
-      <div className="space-y-2">
-        {mockClients.map((client) => (
-          <Card key={client.id} className="border-0 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10 shrink-0">
-                  <AvatarFallback className="bg-zinc-200 text-zinc-700 text-sm font-semibold">
-                    {getInitials(client.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-zinc-900 text-sm">{client.name}</div>
-                  <div className="text-xs text-zinc-500 flex items-center gap-1 mt-0.5">
-                    <Phone size={10} />
-                    {client.phone}
-                  </div>
-                  <div className="text-xs text-zinc-400 mt-0.5">
-                    {client.motorcycles} moto{client.motorcycles > 1 ? 's' : ''} ·{' '}
-                    {client.activeInterventions > 0
-                      ? <span className="text-blue-600 font-medium">{client.activeInterventions} intervention active</span>
-                      : <span>Aucune intervention active</span>
-                    }
-                  </div>
+      {/* Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {mockClients.map((client) => {
+          const avatarColors = getAvatarColor(client.name)
+          return (
+            <div
+              key={client.id}
+              className="bg-white rounded-xl border border-[#E8E5E0] p-5 shadow-sm hover:shadow-md transition-all duration-150 cursor-pointer"
+            >
+              <div className="flex items-center gap-4 mb-4">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${avatarColors}`}>
+                  {getInitials(client.name)}
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs text-zinc-400">{client.joined}</span>
-                  <ChevronRight size={16} className="text-zinc-300" />
+                <div className="min-w-0">
+                  <div className="font-semibold text-[#0C0A09] truncate">{client.name}</div>
+                  <div className="text-xs text-[#78716C] truncate">{client.email}</div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
+
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center gap-2 text-[#78716C]">
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>{client.phone}</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#78716C]">
+                  <Bike className="w-3.5 h-3.5" />
+                  <span>{client.motorcycles} moto{client.motorcycles > 1 ? 's' : ''}</span>
+                </div>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-[#E8E5E0] flex items-center justify-between">
+                {client.activeInterventions > 0 ? (
+                  <span className="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium bg-blue-100 text-blue-700">
+                    {client.activeInterventions} intervention active
+                  </span>
+                ) : (
+                  <span className="text-xs text-[#78716C]">Aucune intervention active</span>
+                )}
+                <span className="text-xs text-[#78716C]">Depuis {client.joined}</span>
+              </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
